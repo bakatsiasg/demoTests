@@ -11,6 +11,9 @@ export class OrderService {
     const response = await this.request.post(
       `${ApiConfig.baseUrl}/store/order`,
       {
+        headers: {
+          "Content-Type": "application/json",
+        },
         data: order,
       }
     );
@@ -25,11 +28,13 @@ export class OrderService {
     };
   }
 
-  async deleteOrder(orderId: number): Promise<{ status: number }> {
-    const response = await this.request.delete(
-      `${ApiConfig.baseUrl}/store/order/${orderId}`
-    );
+  async deleteOrder(
+    orderId: number
+  ): Promise<{ success: boolean; status: number }> {
+    const url = `${ApiConfig.baseUrl}/store/order/${orderId}`;
 
-    return { status: response.status() };
+    const response = await this.request.delete(url);
+
+    return { success: response.ok(), status: response.status() };
   }
 }

@@ -45,7 +45,7 @@ export default defineConfig({
     },
     {
       name: "ui-webkit",
-      testDir: "./tests/api",
+      testDir: "./tests",
       use: {
         baseURL: "https://www.saucedemo.com",
         browserName: "webkit",
