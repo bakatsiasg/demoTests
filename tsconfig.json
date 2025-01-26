@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                      
+    "module": "CommonJS",                   
+    "strict": true,                         
+    "esModuleInterop": true,                
+    "skipLibCheck": true,                   
+    "moduleResolution": "Node",            
+    "outDir": "dist",                       
+    "baseUrl": ".",                         
+    "paths": {
+      "@pages/*": ["src/pages/*"],          
+      "@models/*": ["src/models/*"],        
+      "@builders/*": ["src/builders/*"],    
+      "@services/*": ["src/services/*"],    
+      "@utils/*": ["src/utils/*"] ,
+      "@constants/*": ["src/constants/*"],
+      "@components/*": ["src/components/*"]       
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"], 
+  "exclude": ["node_modules", "dist"]         
+}
