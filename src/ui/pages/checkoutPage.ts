@@ -4,47 +4,43 @@ import { Customer } from "src/ui/models/customer";
 
 export class CheckoutPage {
   private menuComponent: MenuComponent;
-
-  // Selectors as properties
-  private selectors = {
-    finishButton: '[data-test="finish"]',
-    continueButton: '[data-test="continue"]',
-    cancelButton: '[data-test="cancel"]',
-    firstNameInput: '[data-test="firstName"]',
-    lastNameInput: '[data-test="lastName"]',
-    postalCodeInput: '[data-test="postalCode"]',
-    errorMessage: ".error-message-container",
-    checkoutStepTwoTitle: ".title",
-    totalPriceLabel: ".summary_total_label",
-    confirmationMessage: ".complete-header",
-  };
+  private finishButton = '[data-test="finish"]';
+  private continueButton = '[data-test="continue"]';
+  private cancelButton = '[data-test="cancel"]';
+  private firstNameInput = '[data-test="firstName"]';
+  private lastNameInput = '[data-test="lastName"]';
+  private postalCodeInput = '[data-test="postalCode"]';
+  private errorMessage = ".error-message-container";
+  private checkoutStepTwoTitle = ".title";
+  private totalPriceLabel = ".summary_total_label";
+  private confirmationMessage = ".complete-header";
 
   constructor(private page: Page) {
     this.menuComponent = new MenuComponent(page);
   }
 
   async clickFinish() {
-    await this.page.click(this.selectors.finishButton);
+    await this.page.click(this.finishButton);
   }
 
   async clickContinue() {
-    await this.page.click(this.selectors.continueButton);
+    await this.page.click(this.continueButton);
   }
 
   async clickCancel() {
-    await this.page.click(this.selectors.cancelButton);
+    await this.page.click(this.cancelButton);
   }
 
   async fillFirstName(firstName: Customer) {
-    await this.page.fill(this.selectors.firstNameInput, firstName.FirstName);
+    await this.page.fill(this.firstNameInput, firstName.FirstName);
   }
 
   async fillLastName(lastName: Customer) {
-    await this.page.fill(this.selectors.lastNameInput, lastName.LastName);
+    await this.page.fill(this.lastNameInput, lastName.LastName);
   }
 
   async fillPostalCode(postalCode: Customer) {
-    await this.page.fill(this.selectors.postalCodeInput, postalCode.ZipCode);
+    await this.page.fill(this.postalCodeInput, postalCode.ZipCode);
   }
 
   async navigate() {
@@ -53,7 +49,7 @@ export class CheckoutPage {
 
   async assertErrorMessage(expectedMessage: string) {
     const errorMessage = await this.page.textContent(
-      this.selectors.errorMessage
+      this.errorMessage
     );
     if (!errorMessage) {
       throw new Error("Error message container not found");
@@ -63,7 +59,7 @@ export class CheckoutPage {
 
   async assertOnCheckoutStepTwo() {
     const checkoutStepTwoTitle = await this.page.textContent(
-      this.selectors.checkoutStepTwoTitle
+      this.checkoutStepTwoTitle
     );
     if (!checkoutStepTwoTitle) {
       throw new Error("Could not find the checkout step two title");
@@ -73,7 +69,7 @@ export class CheckoutPage {
 
   async returnTotalItemPrice(): Promise<number> {
     const totalPriceText = await this.page.textContent(
-      this.selectors.totalPriceLabel
+      this.totalPriceLabel
     );
     if (!totalPriceText) {
       throw new Error("Total price element not found on the page");
@@ -84,7 +80,7 @@ export class CheckoutPage {
   async assertConfirmationMessage() {
     const confirmationMessage =
       (
-        await this.page.textContent(this.selectors.confirmationMessage)
+        await this.page.textContent(this.confirmationMessage)
       )?.trim() || "";
 
     expect(confirmationMessage).toBe("Thank you for your order!");

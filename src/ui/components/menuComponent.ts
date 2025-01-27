@@ -1,6 +1,11 @@
 import { Page } from "@playwright/test";
 
 export class MenuComponent {
+  private menuButton = "#react-burger-menu-btn";
+  private closeButton = "#react-burger-cross-btn";
+  private shoppingCartLink =
+    '#shopping_cart_container a[data-test="shopping-cart-link"]';
+
   constructor(private page: Page) {}
 
   async navigateToInventory() {
@@ -12,16 +17,14 @@ export class MenuComponent {
   }
 
   async navigateToCart() {
-    await this.page.click(
-      '#shopping_cart_container a[data-test="shopping-cart-link"]'
-    );
+    await this.page.click(this.shoppingCartLink);
   }
 
   async openMenu() {
-    await this.page.click("#react-burger-menu-btn");
+    await this.page.click(this.menuButton);
   }
 
   async closeMenu() {
-    await this.page.click("#react-burger-cross-btn");
+    await this.page.click(this.closeButton);
   }
 }

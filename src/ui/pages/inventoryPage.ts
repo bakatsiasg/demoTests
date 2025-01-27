@@ -6,54 +6,42 @@ import { FilterOptions } from "src/ui/constants/filterOptions";
 
 export class InventoryPage {
   private menuComponent: MenuComponent;
-
-  // Selectors as properties
-  private selectors = {
-    sortContainer: ".product_sort_container",
-    inventoryItemName: "//a/div[@class='inventory_item_name ']",
-    inventoryItemPrice: "//div[@class='inventory_item_price']",
-    inventoryItem: ".inventory_item",
-    addToCartButton: '[data-test^="add-to-cart-"]',
-  };
+  private sortContainer = ".product_sort_container";
+  private inventoryItemName = "//a/div[@class='inventory_item_name ']";
+  private inventoryItemPrice = "//div[@class='inventory_item_price']";
+  private inventoryItem = ".inventory_item";
+  private addToCartButton = '[data-test^="add-to-cart-"]';
 
   constructor(private page: Page) {
     this.menuComponent = new MenuComponent(page);
   }
 
   async clickSortByNameAsc() {
-    await this.page.selectOption(
-      this.selectors.sortContainer,
-      FilterOptions.NAME_ASC
-    );
+    await this.page.selectOption(this.sortContainer, FilterOptions.NAME_ASC);
   }
 
   async clickSortByNameDesc() {
-    await this.page.selectOption(
-      this.selectors.sortContainer,
-      FilterOptions.NAME_DESC
-    );
+    await this.page.selectOption(this.sortContainer, FilterOptions.NAME_DESC);
   }
 
   async clickSortByPriceLowToHigh() {
     await this.page.selectOption(
-      this.selectors.sortContainer,
+      this.sortContainer,
       FilterOptions.PRICE_LOW_TO_HIGH
     );
   }
 
   async clickSortByPriceHighToLow() {
     await this.page.selectOption(
-      this.selectors.sortContainer,
+      this.sortContainer,
       FilterOptions.PRICE_HIGH_TO_LOW
     );
   }
 
   async getProducts(): Promise<Product[]> {
-    const productElementNames = await this.page.locator(
-      this.selectors.inventoryItemName
-    );
+    const productElementNames = await this.page.locator(this.inventoryItemName);
     const productElementPrices = await this.page.locator(
-      this.selectors.inventoryItemPrice
+      this.inventoryItemPrice
     );
 
     const products: Product[] = [];
@@ -80,8 +68,8 @@ export class InventoryPage {
 
   async addItemToCart(productName: string) {
     const productLocator = this.page
-      .locator(this.selectors.inventoryItem)
+      .locator(this.inventoryItem)
       .filter({ hasText: productName });
-    await productLocator.locator(this.selectors.addToCartButton).click();
+    await productLocator.locator(this.addToCartButton).click();
   }
 }

@@ -2,13 +2,10 @@ import { Page } from "@playwright/test";
 import { Customer } from "@models/customer";
 
 export class LoginPage {
-  // Selectors as properties
-  private selectors = {
-    usernameInput: "#user-name",
-    passwordInput: "#password",
-    loginButton: "#login-button",
-    inventoryList: ".inventory_list",
-  };
+  private usernameInput = "#user-name";
+  private passwordInput = "#password";
+  private loginButton = "#login-button";
+  private inventoryList = ".inventory_list";
 
   constructor(private page: Page) {}
 
@@ -16,15 +13,14 @@ export class LoginPage {
     await this.page.goto("/");
   }
 
-  // Accept a Customer object for login
   async login(customer: Customer) {
-    await this.page.fill(this.selectors.usernameInput, customer.Username);
-    await this.page.fill(this.selectors.passwordInput, customer.Password);
-    await this.page.click(this.selectors.loginButton);
+    await this.page.fill(this.usernameInput, customer.Username);
+    await this.page.fill(this.passwordInput, customer.Password);
+    await this.page.click(this.loginButton);
   }
 
   async isLoggedIn(): Promise<boolean> {
-    return this.page.locator(this.selectors.inventoryList).isVisible();
+    return this.page.locator(this.inventoryList).isVisible();
   }
 
   async loginWithStandardUser() {

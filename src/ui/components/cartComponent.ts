@@ -5,6 +5,10 @@ import { ProductBuilder } from "src/ui/builders/productBuilder";
 
 export class CartComponent {
   private menuComponent: MenuComponent;
+  private continueShoppingButton = '[data-test="continue-shopping"]';
+  private checkoutButton = '[data-test="checkout"]';
+  private productNames = "//a/div[@class='inventory_item_name']";
+  private productPrices = "//div[@class='inventory_item_price']";
 
   constructor(private page: Page) {
     this.menuComponent = new MenuComponent(page);
@@ -15,20 +19,16 @@ export class CartComponent {
   }
 
   async clickContinueShopping() {
-    await this.page.click('[data-test="continue-shopping"]');
+    await this.page.click(this.continueShoppingButton);
   }
 
   async clickCheckout() {
-    await this.page.click('[data-test="checkout"]');
+    await this.page.click(this.checkoutButton);
   }
 
   async returnCartProducts(): Promise<Product[]> {
-    const productElementNames = await this.page.locator(
-      "//a/div[@class='inventory_item_name']"
-    );
-    const productElementPrices = await this.page.locator(
-      "//div[@class='inventory_item_price']"
-    );
+    const productElementNames = await this.page.locator(this.productNames);
+    const productElementPrices = await this.page.locator(this.productPrices);
 
     const products: Product[] = [];
 
