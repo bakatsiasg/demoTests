@@ -8,7 +8,7 @@ export const test = base.extend<{
   loginPage: LoginPage;
   inventoryPage: InventoryPage;
   checkoutPage: CheckoutPage;
-  cartPage: CartComponent;
+  cartComponent: CartComponent;
 }>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
@@ -19,7 +19,7 @@ export const test = base.extend<{
   checkoutPage: async ({ page }, use) => {
     await use(new CheckoutPage(page));
   },
-  cartPage: async ({ page }, use) => {
+  cartComponent: async ({ page }, use) => {
     await use(new CartComponent(page));
   },
 });
