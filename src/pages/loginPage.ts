@@ -1,6 +1,14 @@
 import { Page } from "@playwright/test";
 
 export class LoginPage {
+  // Selectors as properties
+  private selectors = {
+    usernameInput: "#user-name",
+    passwordInput: "#password",
+    loginButton: "#login-button",
+    inventoryList: ".inventory_list",
+  };
+
   constructor(private page: Page) {}
 
   async navigateToLogin() {
@@ -8,13 +16,13 @@ export class LoginPage {
   }
 
   async login(username: string, password: string) {
-    await this.page.fill("#user-name", username);
-    await this.page.fill("#password", password);
-    await this.page.click("#login-button");
+    await this.page.fill(this.selectors.usernameInput, username);
+    await this.page.fill(this.selectors.passwordInput, password);
+    await this.page.click(this.selectors.loginButton);
   }
 
   async isLoggedIn(): Promise<boolean> {
-    return this.page.locator(".inventory_list").isVisible();
+    return this.page.locator(this.selectors.inventoryList).isVisible();
   }
 
   async loginWithStandardUser() {
