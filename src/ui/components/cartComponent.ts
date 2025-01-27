@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { MenuComponent } from "./menuComponent";
-import { Product } from "@models/product";
-import { ProductBuilder } from "@builders/productBuilder";
+import { Product } from "src/ui/models/product";
+import { ProductBuilder } from "src/ui/builders/productBuilder";
 
 export class CartComponent {
   private menuComponent: MenuComponent;

@@ -9,10 +9,10 @@
     "outDir": "dist",                       
     "baseUrl": ".",                         
     "paths": {
-      "@pages/*": ["src/pages/*"],          
-      "@models/*": ["src/models/*"],        
+      "@pages/*": ["src/ui/pages/*"],          
+      "@models/*": ["src/ui/models/*"],        
       "@builders/*": ["src/builders/*"],    
-      "@services/*": ["src/services/*"],    
+      "@services/*": ["src/api/services/*"],    
       "@utils/*": ["src/utils/*"] ,
       "@constants/*": ["src/constants/*"],
       "@components/*": ["src/components/*"]       

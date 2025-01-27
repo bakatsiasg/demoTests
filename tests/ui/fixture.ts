@@ -1,8 +1,8 @@
 import { test as base, Page } from "@playwright/test";
-import { LoginPage } from "@pages/loginPage";
-import { InventoryPage } from "@pages/inventoryPage";
-import { CheckoutPage } from "@pages/checkoutPage";
-import { CartComponent } from "@components/cartComponent";
+import { LoginPage } from "src/ui/pages/loginPage";
+import { InventoryPage } from "src/ui/pages/inventoryPage";
+import { CheckoutPage } from "src/ui/pages/checkoutPage";
+import { CartComponent } from "src/ui/components/cartComponent";
 
 export const test = base.extend<{
   loginPage: LoginPage;

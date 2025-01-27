@@ -1,8 +1,8 @@
 import { Page } from "@playwright/test";
-import { Product } from "@models/product";
-import { ProductBuilder } from "@builders/productBuilder";
-import { MenuComponent } from "src/components/menuComponent";
-import { FilterOptions } from "src/constants/filterOptions";
+import { Product } from "src/ui/models/product";
+import { ProductBuilder } from "src/ui/builders/productBuilder";
+import { MenuComponent } from "src/ui/components/menuComponent";
+import { FilterOptions } from "src/ui/constants/filterOptions";
 
 export class InventoryPage {
   private menuComponent: MenuComponent;

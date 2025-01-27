@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Customer } from "@models/customer";
+import { Customer } from "src/ui/models/customer";
 
 export class CustomerBuilder {
   private customer: Customer;

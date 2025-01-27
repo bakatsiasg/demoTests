@@ -1,11 +1,10 @@
-import { CustomerBuilder } from "@builders/customerBuilder";
+import { CustomerBuilder } from "src/ui/builders/customerBuilder";
 import { test, expect } from "../fixture";
-import { ErrorMessages } from "@constants/errorMessages";
+import { ErrorMessages } from "src/ui/constants/errorMessages";
 
 test.describe("Checkout Tests", () => {
   test.beforeEach(async ({ loginPage }) => {
-    await loginPage.navigateToLogin();
-    await loginPage.login("standard_user", "secret_sauce");
+    await loginPage.loginWithStandardUser();
     expect(await loginPage.isLoggedIn()).toBeTruthy();
   });
 

@@ -1,5 +1,5 @@
 import { APIRequestContext } from "@playwright/test";
-import { Pet } from "@models/pet";
+import { Pet } from "src/api/models/pet";
 import { ApiConfig } from "../config/apiConfig";
 
 export class PetService {

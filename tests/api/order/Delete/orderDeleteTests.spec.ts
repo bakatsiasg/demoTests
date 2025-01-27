@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { ServiceFactory } from "../../serviceFactory";
+import { faker } from "@faker-js/faker";
 
 test.describe("Order Delete Tests", () => {
   test("Delete_OrderValidId_ShouldReturnOK", async ({ request }) => {
@@ -8,10 +9,11 @@ test.describe("Order Delete Tests", () => {
 
     // Create an order directly without the builder
     const orderToCreate = {
-      quantity: 2,
+      id: faker.number.int({ min: 100000000, max: 999999999 }),
+      quantity: faker.number.int({ min: 1, max: 9 }),
+      petId: faker.number.int({ min: 1, max: 999999999 }),
       complete: true,
-      status: "placed",
-      petId: 12345,
+      status: faker.helpers.arrayElement(["placed", "complete"]),
     };
 
     const { order: createdOrder, status: createStatus } =
@@ -22,12 +24,9 @@ test.describe("Order Delete Tests", () => {
     expect(orderId).toBeDefined();
 
     // Act
-    const { success, status: deleteStatus } = await orderService.deleteOrder(
-      orderId
-    );
+    const { status: deleteStatus } = await orderService.deleteOrder(orderId);
 
     // Assert
     expect(deleteStatus).toBe(200);
-    expect(success).toBeTruthy();
   });
 });

@@ -1,5 +1,5 @@
 import { APIRequestContext } from "@playwright/test";
-import { Order } from "@models/order";
+import { Order } from "src/api/models/order";
 import { ApiConfig } from "../config/apiConfig";
 
 export class OrderService {
@@ -28,13 +28,11 @@ export class OrderService {
     };
   }
 
-  async deleteOrder(
-    orderId: number
-  ): Promise<{ success: boolean; status: number }> {
+  async deleteOrder(orderId: number): Promise<{ status: number }> {
     const url = `${ApiConfig.baseUrl}/store/order/${orderId}`;
 
     const response = await this.request.delete(url);
 
-    return { success: response.ok(), status: response.status() };
+    return { status: response.status() };
   }
 }

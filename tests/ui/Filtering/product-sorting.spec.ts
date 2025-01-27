@@ -3,6 +3,7 @@ import { test, expect } from "../fixture";
 test.describe("Product Sorting Tests", () => {
   test.beforeEach(async ({ loginPage, inventoryPage }) => {
     await loginPage.loginWithStandardUser();
+    expect(await loginPage.isLoggedIn()).toBeTruthy();
     await inventoryPage.navigate();
   });
 

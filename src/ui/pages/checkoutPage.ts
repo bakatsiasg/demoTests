@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
-import { MenuComponent } from "src/components/menuComponent";
-import { Customer } from "@models/customer";
+import { MenuComponent } from "src/ui/components/menuComponent";
+import { Customer } from "src/ui/models/customer";
 
 export class CheckoutPage {
   private menuComponent: MenuComponent;
