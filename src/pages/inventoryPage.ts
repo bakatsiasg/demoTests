@@ -2,36 +2,58 @@ import { Page } from "@playwright/test";
 import { Product } from "@models/product";
 import { ProductBuilder } from "@builders/productBuilder";
 import { MenuComponent } from "src/components/menuComponent";
+import { FilterOptions } from "src/constants/filterOptions";
 
 export class InventoryPage {
   private menuComponent: MenuComponent;
+
+  // Selectors as properties
+  private selectors = {
+    sortContainer: ".product_sort_container",
+    inventoryItemName: "//a/div[@class='inventory_item_name ']",
+    inventoryItemPrice: "//div[@class='inventory_item_price']",
+    inventoryItem: ".inventory_item",
+    addToCartButton: '[data-test^="add-to-cart-"]',
+  };
 
   constructor(private page: Page) {
     this.menuComponent = new MenuComponent(page);
   }
 
   async clickSortByNameAsc() {
-    await this.page.selectOption(".product_sort_container", "az");
+    await this.page.selectOption(
+      this.selectors.sortContainer,
+      FilterOptions.NAME_ASC
+    );
   }
 
   async clickSortByNameDesc() {
-    await this.page.selectOption(".product_sort_container", "za");
+    await this.page.selectOption(
+      this.selectors.sortContainer,
+      FilterOptions.NAME_DESC
+    );
   }
 
   async clickSortByPriceLowToHigh() {
-    await this.page.selectOption(".product_sort_container", "lohi");
+    await this.page.selectOption(
+      this.selectors.sortContainer,
+      FilterOptions.PRICE_LOW_TO_HIGH
+    );
   }
 
   async clickSortByPriceHighToLow() {
-    await this.page.selectOption(".product_sort_container", "hilo");
+    await this.page.selectOption(
+      this.selectors.sortContainer,
+      FilterOptions.PRICE_HIGH_TO_LOW
+    );
   }
 
   async getProducts(): Promise<Product[]> {
     const productElementNames = await this.page.locator(
-      "//a/div[@class='inventory_item_name ']"
+      this.selectors.inventoryItemName
     );
     const productElementPrices = await this.page.locator(
-      "//div[@class='inventory_item_price']"
+      this.selectors.inventoryItemPrice
     );
 
     const products: Product[] = [];
@@ -58,8 +80,8 @@ export class InventoryPage {
 
   async addItemToCart(productName: string) {
     const productLocator = this.page
-      .locator(".inventory_item")
+      .locator(this.selectors.inventoryItem)
       .filter({ hasText: productName });
-    await productLocator.locator('[data-test^="add-to-cart-"]').click();
+    await productLocator.locator(this.selectors.addToCartButton).click();
   }
 }

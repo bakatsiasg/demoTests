@@ -19,7 +19,7 @@ export default defineConfig({
   projects: [
     {
       name: "ui-chromium",
-      testDir: "./tests",
+      testDir: "./tests/ui",
       use: {
         baseURL: "https://www.saucedemo.com",
         browserName: "chromium",
@@ -32,7 +32,7 @@ export default defineConfig({
     },
     {
       name: "ui-firefox",
-      testDir: "./tests",
+      testDir: "./tests/ui",
       use: {
         baseURL: "https://www.saucedemo.com",
         browserName: "firefox",
@@ -45,7 +45,7 @@ export default defineConfig({
     },
     {
       name: "ui-webkit",
-      testDir: "./tests/api",
+      testDir: "./tests/ui",
       use: {
         baseURL: "https://www.saucedemo.com",
         browserName: "webkit",

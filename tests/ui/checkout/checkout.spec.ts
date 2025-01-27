@@ -11,7 +11,7 @@ test.describe("Checkout Tests", () => {
 
   test("Checkout_AddItemsFromProductsPage_VerifyOrder", async ({
     inventoryPage,
-    cartPage,
+    cartComponent: cartComponent,
     checkoutPage,
   }) => {
     // Randomly pick between products
@@ -27,14 +27,14 @@ test.describe("Checkout Tests", () => {
     }
 
     // Navigate to the cart and verify added products
-    await cartPage.navigate();
-    const cartProducts = await cartPage.returnCartProducts();
+    await cartComponent.navigate();
+    const cartProducts = await cartComponent.returnCartProducts();
     const cartProductNames = cartProducts.map((product) => product.name);
     const randomProductNames = randomProducts.map((product) => product.name);
     expect(cartProductNames).toEqual(randomProductNames);
 
     // Checkout process
-    await cartPage.clickCheckout();
+    await cartComponent.clickCheckout();
 
     // Fill out the checkout form
     const customer = new CustomerBuilder().build();
@@ -44,7 +44,7 @@ test.describe("Checkout Tests", () => {
     await checkoutPage.clickContinue();
 
     // Verify products in the checkout overview and item total price
-    const checkoutProducts = await cartPage.returnCartProducts();
+    const checkoutProducts = await cartComponent.returnCartProducts();
     const checkoutProductNames = checkoutProducts.map(
       (product) => product.name
     );
@@ -65,7 +65,7 @@ test.describe("Checkout Tests", () => {
   });
 
   test("Checkout_InformationFieldsWhenEmpty_ShouldReturnValidationError", async ({
-    cartPage,
+    cartComponent: cartPage,
     checkoutPage,
   }) => {
     const customer = new CustomerBuilder().build();

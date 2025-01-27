@@ -6,7 +6,10 @@ export class PetService {
   constructor(private request: APIRequestContext) {}
 
   async createPet(pet: Pet | null): Promise<{ pet: Pet; status: number }> {
-    const response = await this.request.post(`${ApiConfig.baseUrl}/pet`, {
+    const response = await this.request.post(`${ApiConfig.baseUrl}/pet/`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       data: pet,
     });
 
@@ -28,7 +31,7 @@ export class PetService {
     );
 
     if (response.status() === 404) {
-      return { pet: null, status: 404 }; // Pet not found
+      return { pet: null, status: 404 };
     }
 
     if (!response.ok()) {
