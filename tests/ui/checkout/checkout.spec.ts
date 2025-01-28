@@ -4,8 +4,8 @@ import { ErrorMessages } from "src/ui/constants/errorMessages";
 
 test.describe("Checkout Tests", () => {
   test.beforeEach(async ({ loginPage }) => {
-    await loginPage.loginWithStandardUser();
-    expect(await loginPage.isLoggedIn()).toBeTruthy();
+    await loginPage.loginAsStandardUser();
+    expect(await loginPage.verifyLogin()).toBeTruthy();
   });
 
   test("Checkout_AddItemsFromProductsPage_VerifyOrder", async ({
@@ -16,7 +16,7 @@ test.describe("Checkout Tests", () => {
     // Step 1: Select random products from the inventory
     const randomProducts =
       await test.step("Select random products from inventory", async () => {
-        const allProducts = await inventoryPage.getProducts();
+        const allProducts = await inventoryPage.fetchInventoryProducts();
         return allProducts.slice(
           0,
           Math.floor(Math.random() * allProducts.length) + 1
@@ -26,14 +26,14 @@ test.describe("Checkout Tests", () => {
     // Step 2: Add selected products to the cart
     await test.step("Add selected products to the cart", async () => {
       for (const product of randomProducts) {
-        await inventoryPage.addItemToCart(product.name);
+        await inventoryPage.addProductToCart(product.name);
       }
     });
 
     // Step 3: Verify added products in the cart
     await test.step("Navigate to cart and verify added products", async () => {
-      await cartComponent.navigate();
-      const cartProducts = await cartComponent.returnCartProducts();
+      await cartComponent.goToCartPage();
+      const cartProducts = await cartComponent.getCartProducts();
       const cartProductNames = cartProducts.map((product) => product.name);
       const randomProductNames = randomProducts.map((product) => product.name);
       expect(cartProductNames).toEqual(randomProductNames);
@@ -41,21 +41,21 @@ test.describe("Checkout Tests", () => {
 
     // Step 4: Proceed to checkout
     await test.step("Proceed to checkout", async () => {
-      await cartComponent.clickCheckout();
+      await cartComponent.proceedToCheckout();
     });
 
     // Step 5: Fill out checkout form
     await test.step("Fill out checkout form", async () => {
       const customer = new CustomerBuilder().build();
-      await checkoutPage.fillFirstName(customer);
-      await checkoutPage.fillLastName(customer);
-      await checkoutPage.fillPostalCode(customer);
-      await checkoutPage.clickContinue();
+      await checkoutPage.enterFirstName(customer);
+      await checkoutPage.enterLastName(customer);
+      await checkoutPage.enterPostalCode(customer);
+      await checkoutPage.proceedToNextStep();
     });
 
     // Step 6: Verify products in the checkout overview
     await test.step("Verify products in checkout overview and item total price", async () => {
-      const checkoutProducts = await cartComponent.returnCartProducts();
+      const checkoutProducts = await cartComponent.getCartProducts();
       const checkoutProductNames = checkoutProducts.map(
         (product) => product.name
       );
@@ -66,18 +66,18 @@ test.describe("Checkout Tests", () => {
         (sum, p) => sum + p.price,
         0
       );
-      const actualTotalPrice = await checkoutPage.returnTotalItemPrice();
+      const actualTotalPrice = await checkoutPage.getTotalItemPrice();
       expect(actualTotalPrice).toBeGreaterThanOrEqual(expectedTotalPrice);
     });
 
     // Step 7: Complete the order
     await test.step("Complete the order", async () => {
-      await checkoutPage.clickFinish();
+      await checkoutPage.completeCheckout();
     });
 
     // Step 8: Verify confirmation message
     await test.step("Verify confirmation message", async () => {
-      await checkoutPage.assertConfirmationMessage();
+      await checkoutPage.verifyOrderConfirmation();
     });
   });
 
@@ -86,21 +86,21 @@ test.describe("Checkout Tests", () => {
     checkoutPage,
   }) => {
     const customer = new CustomerBuilder().build();
-    await cartPage.navigate();
-    await cartPage.clickCheckout();
-    await checkoutPage.clickContinue();
-    await checkoutPage.assertErrorMessage(ErrorMessages.FirstNameRequired);
+    await cartPage.goToCartPage();
+    await cartPage.proceedToCheckout();
+    await checkoutPage.proceedToNextStep();
+    await checkoutPage.verifyErrorMessage(ErrorMessages.FirstNameRequired);
 
-    await checkoutPage.fillFirstName(customer);
-    await checkoutPage.clickContinue();
-    await checkoutPage.assertErrorMessage(ErrorMessages.LastNameRequired);
+    await checkoutPage.enterFirstName(customer);
+    await checkoutPage.proceedToNextStep();
+    await checkoutPage.verifyErrorMessage(ErrorMessages.LastNameRequired);
 
-    await checkoutPage.fillLastName(customer);
-    await checkoutPage.clickContinue();
-    await checkoutPage.assertErrorMessage(ErrorMessages.PostalCodeRequired);
+    await checkoutPage.enterLastName(customer);
+    await checkoutPage.proceedToNextStep();
+    await checkoutPage.verifyErrorMessage(ErrorMessages.PostalCodeRequired);
 
-    await checkoutPage.fillPostalCode(customer);
-    await checkoutPage.clickContinue();
-    await checkoutPage.assertOnCheckoutStepTwo();
+    await checkoutPage.enterPostalCode(customer);
+    await checkoutPage.proceedToNextStep();
+    await checkoutPage.verifyOnOverviewStep();
   });
 });

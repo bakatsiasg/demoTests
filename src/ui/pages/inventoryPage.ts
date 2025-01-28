@@ -16,29 +16,29 @@ export class InventoryPage {
     this.menuComponent = new MenuComponent(page);
   }
 
-  async clickSortByNameAsc() {
+  async sortProductsByNameAscending() {
     await this.page.selectOption(this.sortContainer, FilterOptions.NAME_ASC);
   }
 
-  async clickSortByNameDesc() {
+  async sortProductsByNameDescending() {
     await this.page.selectOption(this.sortContainer, FilterOptions.NAME_DESC);
   }
 
-  async clickSortByPriceLowToHigh() {
+  async sortProductsByPriceAscending() {
     await this.page.selectOption(
       this.sortContainer,
       FilterOptions.PRICE_LOW_TO_HIGH
     );
   }
 
-  async clickSortByPriceHighToLow() {
+  async sortProductsByPriceDescending() {
     await this.page.selectOption(
       this.sortContainer,
       FilterOptions.PRICE_HIGH_TO_LOW
     );
   }
 
-  async getProducts(): Promise<Product[]> {
+  async fetchInventoryProducts(): Promise<Product[]> {
     const productElementNames = await this.page.locator(this.inventoryItemName);
     const productElementPrices = await this.page.locator(
       this.inventoryItemPrice
@@ -62,11 +62,11 @@ export class InventoryPage {
     return products;
   }
 
-  async navigate() {
+  async goToInventoryPage() {
     await this.menuComponent.navigateToInventory();
   }
 
-  async addItemToCart(productName: string) {
+  async addProductToCart(productName: string) {
     const productLocator = this.page
       .locator(this.inventoryItem)
       .filter({ hasText: productName });

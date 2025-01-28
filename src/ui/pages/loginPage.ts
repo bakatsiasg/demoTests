@@ -9,7 +9,7 @@ export class LoginPage {
 
   constructor(private page: Page) {}
 
-  async navigateToLogin() {
+  async goToLoginPage() {
     await this.page.goto("/");
   }
 
@@ -19,11 +19,11 @@ export class LoginPage {
     await this.page.click(this.loginButton);
   }
 
-  async isLoggedIn(): Promise<boolean> {
+  async verifyLogin(): Promise<boolean> {
     return this.page.locator(this.inventoryList).isVisible();
   }
 
-  async loginWithStandardUser() {
+  async loginAsStandardUser() {
     const standardUser: Customer = {
       Username: "standard_user",
       Password: "secret_sauce",
@@ -31,7 +31,7 @@ export class LoginPage {
       LastName: "User",
       ZipCode: "12345",
     };
-    await this.navigateToLogin();
+    await this.goToLoginPage();
     await this.login(standardUser);
   }
 }

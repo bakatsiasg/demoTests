@@ -19,45 +19,43 @@ export class CheckoutPage {
     this.menuComponent = new MenuComponent(page);
   }
 
-  async clickFinish() {
+  async completeCheckout() {
     await this.page.click(this.finishButton);
   }
 
-  async clickContinue() {
+  async proceedToNextStep() {
     await this.page.click(this.continueButton);
   }
 
-  async clickCancel() {
+  async cancelCheckout() {
     await this.page.click(this.cancelButton);
   }
 
-  async fillFirstName(firstName: Customer) {
+  async enterFirstName(firstName: Customer) {
     await this.page.fill(this.firstNameInput, firstName.FirstName);
   }
 
-  async fillLastName(lastName: Customer) {
+  async enterLastName(lastName: Customer) {
     await this.page.fill(this.lastNameInput, lastName.LastName);
   }
 
-  async fillPostalCode(postalCode: Customer) {
+  async enterPostalCode(postalCode: Customer) {
     await this.page.fill(this.postalCodeInput, postalCode.ZipCode);
   }
 
-  async navigate() {
+  async goToCheckoutPage() {
     await this.menuComponent.navigateToInventory();
   }
 
-  async assertErrorMessage(expectedMessage: string) {
-    const errorMessage = await this.page.textContent(
-      this.errorMessage
-    );
+  async verifyErrorMessage(expectedMessage: string) {
+    const errorMessage = await this.page.textContent(this.errorMessage);
     if (!errorMessage) {
       throw new Error("Error message container not found");
     }
     expect(errorMessage.trim()).toBe(expectedMessage);
   }
 
-  async assertOnCheckoutStepTwo() {
+  async verifyOnOverviewStep() {
     const checkoutStepTwoTitle = await this.page.textContent(
       this.checkoutStepTwoTitle
     );
@@ -67,21 +65,17 @@ export class CheckoutPage {
     expect(checkoutStepTwoTitle.trim()).toBe("Checkout: Overview");
   }
 
-  async returnTotalItemPrice(): Promise<number> {
-    const totalPriceText = await this.page.textContent(
-      this.totalPriceLabel
-    );
+  async getTotalItemPrice(): Promise<number> {
+    const totalPriceText = await this.page.textContent(this.totalPriceLabel);
     if (!totalPriceText) {
       throw new Error("Total price element not found on the page");
     }
     return parseFloat(totalPriceText.replace("Total: $", "").trim());
   }
 
-  async assertConfirmationMessage() {
+  async verifyOrderConfirmation() {
     const confirmationMessage =
-      (
-        await this.page.textContent(this.confirmationMessage)
-      )?.trim() || "";
+      (await this.page.textContent(this.confirmationMessage))?.trim() || "";
 
     expect(confirmationMessage).toBe("Thank you for your order!");
   }

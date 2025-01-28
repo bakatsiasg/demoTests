@@ -14,19 +14,19 @@ export class CartComponent {
     this.menuComponent = new MenuComponent(page);
   }
 
-  async navigate() {
+  async goToCartPage() {
     await this.menuComponent.navigateToCart();
   }
 
-  async clickContinueShopping() {
+  async continueShopping() {
     await this.page.click(this.continueShoppingButton);
   }
 
-  async clickCheckout() {
+  async proceedToCheckout() {
     await this.page.click(this.checkoutButton);
   }
 
-  async returnCartProducts(): Promise<Product[]> {
+  async getCartProducts(): Promise<Product[]> {
     const productElementNames = await this.page.locator(this.productNames);
     const productElementPrices = await this.page.locator(this.productPrices);
 
