@@ -1,6 +1,6 @@
 import { APIRequestContext } from "@playwright/test";
-import { PetService } from "@services/petService";
-import { OrderService } from "@services/orderService";
+import { PetService } from "src/api/services/petService";
+import { OrderService } from "src/api/services/orderService";
 
 export class ServiceFactory {
   static petService(request: APIRequestContext): PetService {
