@@ -7,7 +7,6 @@ test.describe("Order Delete Tests", () => {
     // Arrange
     const orderService = ServiceFactory.orderService(request);
 
-    // Create an order directly without the builder
     const orderToCreate = {
       id: faker.number.int({ min: 100000000, max: 999999999 }),
       quantity: faker.number.int({ min: 1, max: 9 }),
